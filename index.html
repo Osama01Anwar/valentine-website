@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Valentine's Day!</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    /* Heart Animation */
+    .heart {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      position: relative;
+      transform: rotate(-45deg);
+      margin: 20px auto;
+      animation: heartbeat 1.5s infinite, float 4s ease-in-out infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -50px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: 50px;
+    }
+
+    @keyframes heartbeat {
+      0% {
+        transform: scale(1) rotate(-45deg);
+      }
+      50% {
+        transform: scale(1.1) rotate(-45deg);
+      }
+      100% {
+        transform: scale(1) rotate(-45deg);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-45deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(-45deg);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Button Styles */
+    button {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      color: #ff7eb3;
+      background: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    button:hover {
+      background: #ffe6f0;
+      transform: scale(1.1);
+    }
+
+    /* Message Styles */
+    #valentineMessage {
+      font-size: 1.5rem;
+      margin: 20px 0;
+      animation: fadeIn 2s ease-in-out;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Falling Hearts Background */
+    .falling-hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .falling-hearts span {
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.6);
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 75%, 18% 100%, 0% 38%);
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%);
+      }
+      100% {
+        transform: translateY(110%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Falling Hearts Background -->
+  <div class="falling-hearts">
+    <!-- Generate 30 falling hearts -->
+    <script>
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('span');
+        heart.style.left = `${Math.random() * 100}vw`;
+        heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        heart.style.animationDelay = `${Math.random() * 2}s`;
+        document.querySelector('.falling-hearts').appendChild(heart);
+      }
+    </script>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Happy Valentine's Day! 💖</h1>
+    <div class="heart"></div>
+    <p id="valentineMessage">Click the button below for a special message!</p>
+    <button id="messageButton">Get a Valentine's Message</button>
+  </div>
+
+  <script>
+    // Array of heartfelt Valentine's Day messages
+    const messages = [
+      "You are my today and all of my tomorrows. 💕",
+      "I love you more than words can express. You mean everything to me. 🌹",
+      "Every moment with you feels like a dream I never want to wake up from. 💖",
+      "You are the reason I believe in love. Thank you for being you. 🥰",
+      "My love for you grows stronger with every beat of my heart. 💓",
+      "You are my sunshine on the darkest days. I love you endlessly. ☀️",
+      "I fall in love with you more every single day. You are my forever. 💘",
+      "You are my heart, my soul, and my everything. I love you beyond measure. 💞",
+      "Being with you feels like home. I never want to be anywhere else. 🏡",
+      "You are the missing piece I never knew I needed. I love you completely. ❤️",
+      "My heart is yours, now and forever. I love you more than anything. 💌",
+      "You make my life so beautiful. I’m so grateful for you. 🌸",
+      "I love you not only for who you are but for who I am when I’m with you. 💑",
+      "You are my greatest adventure. I love you to the moon and back. 🌙",
+      "With you, I’ve found my happily ever after. I love you endlessly. 🥂",
+    ];
+
+    // Get DOM elements
+    const messageElement = document.getElementById("valentineMessage");
+    const button = document.getElementById("messageButton");
+
+    // Function to display a random message
+    function showRandomMessage() {
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * messages.length);
+      } while (messages[randomIndex] === messageElement.textContent); // Ensure the same message doesn't repeat
+      messageElement.textContent = messages[randomIndex];
+      messageElement.style.animation = "fadeIn 1s ease-in-out";
+    }
+
+    // Add event listener to the button
+    button.addEventListener("click", showRandomMessage);
+  </script>
+</body>
+</html>
